@@ -59,8 +59,8 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.github.retrofit'
-                artifactId = 'retrofit'
+                groupId = 'com.github.genericapi'
+                artifactId = 'genericapi'
                 version = '1.0.0'
             }
         }

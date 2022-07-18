@@ -52,7 +52,7 @@ object ServiceGenerator {
             addInterceptor(loggingInterceptor)
             connectivityInterceptor?.let {
                 addInterceptor(connectivityInterceptor)
-            } ?: addInterceptor(ConnectivityInterceptorImpl(context))
+            } ?: addInterceptor(ConnectivityInterceptorImpl(context,null))
         }.build()
 
         return Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)

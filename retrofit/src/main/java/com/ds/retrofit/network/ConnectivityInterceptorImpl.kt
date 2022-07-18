@@ -13,14 +13,23 @@ import okhttp3.Response
 
 private const val noInternetError = "No Internet Connection!"
 
-class ConnectivityInterceptorImpl(private val context: Context) : ConnectivityInterceptor {
+class ConnectivityInterceptorImpl(
+    private val context: Context,
+    private val headers: HashMap<String, String>?
+) : ConnectivityInterceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         if (!isOnline(context))
             throw ApiException(noInternetError)
         else {
             val request = chain.request()
             // TODO: Add headers to newRequest
-            val newRequest = request.newBuilder().build()
+            val newRequest = request.newBuilder().apply {
+                headers?.let { headersMap ->
+                    headersMap.map {
+                        addHeader(it.key, it.value)
+                    }
+                }
+            }.build()
             return chain.proceed(newRequest)
         }
     }

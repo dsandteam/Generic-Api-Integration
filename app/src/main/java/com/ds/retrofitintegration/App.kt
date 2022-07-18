@@ -1,11 +1,11 @@
 package com.ds.retrofitintegration
 
 import android.app.Application
-import com.ds.retrofit.RetrofitViewModel
+import com.ds.retrofit.ApiViewModel
 import com.ds.retrofit.network.ApiService
 import com.ds.retrofit.network.ServiceGenerator
-import com.ds.retrofit.repository.RepositoryImpl
-import com.ds.retrofit.repository.RetrofitRepository
+import com.ds.retrofit.repository.ApiRepository
+import com.ds.retrofit.repository.ApiRepositoryImpl
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -24,8 +24,8 @@ class App : Application(),KodeinAware {
                 null
             )
         }
-        bind<RetrofitRepository>() with singleton { RepositoryImpl(instance()) }
-        bind() from singleton { RetrofitViewModel(instance()) }
+        bind<ApiRepository>() with singleton { ApiRepositoryImpl(instance()) }
+        bind() from singleton { ApiViewModel(instance()) }
     }
 
 }

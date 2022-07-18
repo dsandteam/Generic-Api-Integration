@@ -4,10 +4,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import okhttp3.Interceptor
 import okhttp3.Response
-
 /**
  *
- * Created By Amir Fury on 19 May 2022
+ * Created By Amir Fury on 18 July 2022
  *
  * **/
 
@@ -22,7 +21,6 @@ class ConnectivityInterceptorImpl(
             throw ApiException(noInternetError)
         else {
             val request = chain.request()
-            // TODO: Add headers to newRequest
             val newRequest = request.newBuilder().apply {
                 headers?.let { headersMap ->
                     headersMap.map {

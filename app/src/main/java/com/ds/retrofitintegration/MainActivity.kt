@@ -4,10 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.ds.retrofit.RetrofitViewModel
+import com.ds.retrofit.ApiViewModel
 import com.ds.retrofit.convertToResponse
-import com.ds.retrofit.json
 import com.ds.retrofit.network.Status
+import com.google.gson.Gson
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     override val kodein: Kodein by kodein()
 
-    private val retrofitViewModel by instance<RetrofitViewModel>()
+    private val retrofitViewModel by instance<ApiViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
                 }
                 Status.SUCCESS -> {
                     toast("Success...")
-                    toast(it.data.convertToResponse().json())
+                    toast(Gson().toJson(it.data.convertToResponse()))
                 }
                 Status.ERROR -> {toast("Error : ${it.message}")}
             }

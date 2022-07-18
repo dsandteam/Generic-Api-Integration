@@ -5,7 +5,11 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
-
+/**
+ *
+ * Created By Amir Fury on 18 July 2022
+ *
+ * **/
 interface ApiService {
 
     @GET

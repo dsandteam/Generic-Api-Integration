@@ -22,7 +22,7 @@ object ServiceGenerator {
     inline operator fun <reified T> invoke(
         context: Context,
         baseUrl: String,
-        connectivityInterceptor: Interceptor?, timeOut: Long = 120
+        connectivityInterceptor: Interceptor?, addRequestLogger: Boolean, timeOut: Long = 120
     ): T {
         val requestInterceptor = Interceptor { chain ->
             val url = chain.request()
@@ -50,12 +50,14 @@ object ServiceGenerator {
             writeTimeout(timeOut, TimeUnit.SECONDS)
             addInterceptor(requestInterceptor)
             addInterceptor(loggingInterceptor)
-            if (BuildConfig.DEBUG){
-                addInterceptor(RequestLogger(context))
+            if (BuildConfig.DEBUG) {
+                if (addRequestLogger) {
+                    addInterceptor(RequestLogger(context))
+                }
             }
             connectivityInterceptor?.let {
                 addInterceptor(connectivityInterceptor)
-            } ?: addInterceptor(ConnectivityInterceptorImpl(context,null))
+            } ?: addInterceptor(ConnectivityInterceptorImpl(context, null))
         }.build()
 
         return Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)

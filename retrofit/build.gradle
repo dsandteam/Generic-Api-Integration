@@ -63,7 +63,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.genericapi'
                 artifactId = 'genericapi'
-                version = '1.0.5'
+                version = '1.0.6'
             }
         }
     }

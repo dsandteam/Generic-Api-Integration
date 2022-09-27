@@ -50,14 +50,14 @@ object ServiceGenerator {
             writeTimeout(timeOut, TimeUnit.SECONDS)
             addInterceptor(requestInterceptor)
             addInterceptor(loggingInterceptor)
-            if (BuildConfig.DEBUG) {
-                if (addRequestLogger) {
-                    addInterceptor(RequestLogger(context))
-                }
-            }
             connectivityInterceptor?.let {
                 addInterceptor(connectivityInterceptor)
             } ?: addInterceptor(ConnectivityInterceptorImpl(context, null))
+            if (addRequestLogger){
+                if (BuildConfig.DEBUG){
+                    addInterceptor(RequestLogger(context))
+                }
+            }
         }.build()
 
         return Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)

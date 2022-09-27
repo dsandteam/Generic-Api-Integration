@@ -21,7 +21,7 @@ class App : Application(), KodeinAware {
             ServiceGenerator.invoke<ApiService>(
                 instance(),
                 Constants.baseUrl,
-                null, false
+                null,true
             )
         }
         bind<ApiRepository>() with singleton { ApiRepositoryImpl(instance()) }

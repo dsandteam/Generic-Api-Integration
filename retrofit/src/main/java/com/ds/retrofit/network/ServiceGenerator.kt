@@ -53,10 +53,8 @@ object ServiceGenerator {
             connectivityInterceptor?.let {
                 addInterceptor(connectivityInterceptor)
             } ?: addInterceptor(ConnectivityInterceptorImpl(context, null))
-            if (addRequestLogger){
-                if (BuildConfig.DEBUG){
-                    addInterceptor(RequestLogger(context))
-                }
+            if (addRequestLogger) {
+                addInterceptor(RequestLogger(context))
             }
         }.build()
 

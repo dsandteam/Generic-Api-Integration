@@ -4,9 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.ds.retrofit.ApiViewModel
-import com.ds.retrofit.convertToResponse
 import com.ds.retrofit.network.Status
+import com.ds.retrofit.network.convertToResponse
 import com.google.gson.Gson
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -17,7 +16,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     override val kodein: Kodein by kodein()
 
-    private val retrofitViewModel by instance<ApiViewModel>()
+    private val appViewModel by instance<AppViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +26,17 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     private fun fetchNewData() {
         val response =
-            retrofitViewModel.get<NewsResponse>(Constants.apiUrl.plus(Constants.newsApiKey))
+            appViewModel.get<NewsResponse>(Constants.apiUrl.plus(Constants.newsApiKey))
         response.observe(this) {
             when (it?.status) {
                 Status.LOADING -> {
                     toast("Loading...")
                 }
                 Status.SUCCESS -> {
-                    toast("Success...")
                     toast(Gson().toJson(it.data.convertToResponse()))
                 }
                 Status.ERROR -> {toast("Error : ${it.message}")}
+                else -> {}
             }
         }
     }

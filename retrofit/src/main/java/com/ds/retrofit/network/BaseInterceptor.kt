@@ -12,10 +12,10 @@ import okhttp3.Response
 
 private const val noInternetError = "No Internet Connection!"
 
-class ConnectivityInterceptorImpl(
+class BaseInterceptor(
     private val context: Context,
     private val headers: HashMap<String, String>?
-) : ConnectivityInterceptor {
+) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         if (!isOnline(context))
             throw ApiException(noInternetError)

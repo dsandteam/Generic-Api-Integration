@@ -1,4 +1,4 @@
-package com.ds.retrofit
+package com.ds.retrofit.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ds.retrofit.network.ApiRequest
 import com.ds.retrofit.network.Resource
-import com.ds.retrofit.repository.ApiRepository
+import com.ds.retrofit.repository.BaseRepository
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 
@@ -16,7 +16,7 @@ import okhttp3.RequestBody
  *
  * **/
 
-open class ApiViewModel(private val apiRepository: ApiRepository) : ViewModel() {
+open class BaseViewModel(private val apiRepository: BaseRepository) : ViewModel() {
 
     open fun <ResponseType> get(apiUrl: String): LiveData<Resource<ResponseType>> {
         val data = MutableLiveData<Resource<ResponseType>>()
@@ -44,7 +44,7 @@ open class ApiViewModel(private val apiRepository: ApiRepository) : ViewModel() 
     ): LiveData<Resource<ResponseType>> {
         val data = MutableLiveData<Resource<ResponseType>>()
         data.postValue(Resource.loading(null))
-        viewModelScope.launch { data.postValue(apiRepository.multipart(apiUrl, requestBody)) }
+        viewModelScope.launch { data.postValue(apiRepository.postMultipart(apiUrl, requestBody)) }
         return data
     }
 

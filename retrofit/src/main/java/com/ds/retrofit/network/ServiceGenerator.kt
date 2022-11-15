@@ -1,7 +1,6 @@
 package com.ds.retrofit.network
 
 import android.content.Context
-import com.amir.chuck.RequestLogger
 import com.ds.retrofit.BuildConfig
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
@@ -22,7 +21,7 @@ object ServiceGenerator {
     inline operator fun <reified T> invoke(
         context: Context,
         baseUrl: String,
-        connectivityInterceptor: Interceptor?, addRequestLogger: Boolean, timeOut: Long = 120
+        connectivityInterceptor: Interceptor?,timeOut: Long = 120
     ): T {
         val requestInterceptor = Interceptor { chain ->
             val url = chain.request()
@@ -51,11 +50,8 @@ object ServiceGenerator {
             addInterceptor(requestInterceptor)
             addInterceptor(loggingInterceptor)
             connectivityInterceptor?.let {
-                addInterceptor(connectivityInterceptor)
-            } ?: addInterceptor(ConnectivityInterceptorImpl(context, null))
-            if (addRequestLogger) {
-                addInterceptor(RequestLogger(context))
-            }
+                addInterceptor(it)
+            } ?: addInterceptor(BaseInterceptor(context, null))
         }.build()
 
         return Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)

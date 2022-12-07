@@ -1,6 +1,7 @@
 package com.ds.retrofit.network
 
 import android.content.Context
+import com.amir.chuck.RequestLogger
 import com.ds.retrofit.BuildConfig
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
@@ -49,6 +50,7 @@ object ServiceGenerator {
             writeTimeout(timeOut, TimeUnit.SECONDS)
             addInterceptor(requestInterceptor)
             addInterceptor(loggingInterceptor)
+            addInterceptor(RequestLogger(context))
             connectivityInterceptor?.let {
                 addInterceptor(it)
             } ?: addInterceptor(BaseInterceptor(context, null))
